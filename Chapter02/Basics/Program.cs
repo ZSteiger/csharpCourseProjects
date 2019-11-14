@@ -26,9 +26,9 @@ namespace Basics {
                     arg0 : a.DefinedTypes.Count (),
                     arg1 : methodCount,
                     arg2 : r.Name);
-                // let the heightInMeters variable become equal to the value 1.88
+                // let the heightInMetres variable become equal to the value 1.88
                 double heightInMeters = 1.88;
-                Console.WriteLine ($"The variable {nameof(heightInMeters)} has the value {heightInMeters}.");
+                Console.WriteLine ($"The variable {nameof(heightInMetres)} has the value {heightInMetres}.");
             }
         }
     }
