@@ -27,7 +27,7 @@ namespace Basics {
                     arg1 : methodCount,
                     arg2 : r.Name);
                 // let the heightInMetres variable become equal to the value 1.88
-                double heightInMeters = 1.88;
+                double heightInMetres = 1.88;
                 Console.WriteLine ($"The variable {nameof(heightInMetres)} has the value {heightInMetres}.");
             }
         }
