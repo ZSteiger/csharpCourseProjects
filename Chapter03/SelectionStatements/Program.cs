@@ -54,7 +54,6 @@ namespace SelectionStatements
                     WriteLine("Default");
                     break;
             } // end of switch
-
             string path = @"C:\Users\zstei\Desktop\Coding\csharpbook\Chapter03";
             Stream s = File.Open(Path.Combine(path, "file.txt"), FileMode.OpenOrCreate);
             string message = string.Empty;
@@ -77,6 +76,17 @@ namespace SelectionStatements
                     message = "The stream is null.";
                     break;
             }
+            WriteLine(message);
+
+            message = s switch
+            {
+                FileStream writeableFile when s.CanWrite => "The stream is a file that I can write to.",
+                FileStream readOnlyFile => "The stream is a read only file",
+                MemoryStream ms => "The stream is a memory address",
+                null => "The stream is null",
+                _ => "The stream is some other type"
+            };
+            WriteLine(message);
         }
     }
 }
