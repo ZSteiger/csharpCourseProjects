@@ -1,12 +1,21 @@
 ﻿using System;
+using static System.Console;
 
 namespace Debugging
 {
     class Program
     {
+        static double Add(double a, double b)
+        {
+            return a + b; // deliberate bug!
+        }
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            double a = 4.5; // or use var
+            double b = 2.5;
+            double answer = Add(a, b);
+            WriteLine($"{a} + {b} = {answer}");
+            ReadLine(); // wait for the user to press enter        }
         }
     }
 }

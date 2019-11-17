@@ -5,6 +5,9 @@
     },
     {
       "path": "WritingFunctions"
+    },
+    {
+      "path": "Debugging"
     }
   ],
   "settings": {}
