@@ -38,7 +38,7 @@ namespace WritingFunctions
         )
         {
             decimal rate = 0.0M;
-            switch (twoLetterRegionCode)
+            /* switch (twoLetterRegionCode)
             {
                 case "CH": // Switz
                     rate = 0.08M;
@@ -70,18 +70,31 @@ namespace WritingFunctions
                 default: // most US states
                     rate = 0.6M;
                     break;
-            }
+            } */
+            rate = twoLetterRegionCode switch
+            {
+                "CH" => 0.8M,
+                "NO" => 0.25M,
+                "GB" => 0.2M,
+                "HU" => 0.27M,
+                "OR" => 0.0M,
+                "VA" => 0.05M,
+                "CA" => 0.825M,
+                _ => 0.6M
+            };
             return amount * rate;
+
         }
 
         static void RunCalculateTax()
         {
             Write("Enter an amount: ");
             string amountInText = ReadLine();
+            string amountInCaps = amountInText.ToUpper();
             Write("Enter a two-letter region code: ");
             string region = ReadLine();
 
-            if (decimal.TryParse(amountInText, out decimal amount))
+            if (decimal.TryParse(amountInCaps, out decimal amount))
             {
                 decimal taxToPay = CalculateTax(amount, region);
                 WriteLine($"You must pay {taxToPay} in sales tax.");
@@ -91,9 +104,98 @@ namespace WritingFunctions
                 WriteLine("You did not enter a valid amount!");
             }
         }
+
+        static string CardinalToOrdinal(int number)
+        {
+            switch (number)
+            {
+
+                case 11:
+                case 12:
+                case 13:
+                    return $"{number}th";
+                default:
+                    string numberAsText = number.ToString();
+                    char lastDigit = numberAsText[numberAsText.Length - 1];
+                    string suffix = string.Empty;
+                    switch (lastDigit)
+                    {
+                        case '1':
+                            suffix = "st";
+                            break;
+                        case '2':
+                            suffix = "nd";
+                            break;
+                        case '3':
+                            suffix = "rd";
+                            break;
+                        default:
+                            suffix = "th";
+                            break;
+                    }
+                    return $"{number}{suffix}";
+            }
+        }
+
+        // document your functions with XML comments
+        /// <summary>
+        /// Pass a 32-bit integer and it will be converted into its ordinal equivalent.
+        /// </summary>
+        /// <param name="number">
+        /// Number is a cardinal value e.g. 1, 2, 3, and so on.
+        /// </param>
+        /// <returns>
+        /// Number is an ordinal value e.g. 1st, 2nd, 3rd, and so on.
+        /// </returns>
+
+        static void RunCardinalToOrdinal()
+        {
+            for (int number = 1; number <= 40; number++)
+            {
+                Write($"{CardinalToOrdinal(number)} ");
+            }
+            WriteLine();
+        }
+
+        static int Factorial(int number)
+        {
+            if (number < 1)
+            {
+                return 0;
+            }
+            else if (number == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return number * Factorial(number - 1);
+            }
+        }
+        static void RunFactorial()
+        {
+            bool isNumber;
+            do
+            {
+                Write("Enter a number: ");
+                isNumber = int.TryParse(
+                    ReadLine(), out int number);
+                if (isNumber)
+                {
+                    WriteLine($"{number:N0}! = {Factorial(number):N0}");
+                }
+                else
+                {
+                    WriteLine("You did not enter a valid number!");
+                }
+            } while (isNumber);
+        }
         static void Main(string[] args)
         {
-            RunTimesTable();
+            // RunTimesTable();
+            // RunCalculateTax();
+            RunCardinalToOrdinal();
+            RunFactorial();
         }
     }
 }
