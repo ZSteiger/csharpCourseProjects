@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using static System.Console;
 
 namespace SelectionStatements
@@ -53,6 +54,29 @@ namespace SelectionStatements
                     WriteLine("Default");
                     break;
             } // end of switch
+
+            string path = @"C:\Users\zstei\Desktop\Coding\csharpbook\Chapter03";
+            Stream s = File.Open(Path.Combine(path, "file.txt"), FileMode.OpenOrCreate);
+            string message = string.Empty;
+
+            switch (s)
+            {
+                case FileStream writeableFile when s.CanWrite:
+                    message = "The stream is a file I can write to.";
+                    break;
+                case FileStream readOnlyFile:
+                    message = "The stream is a read-only file.";
+                    break;
+                case MemoryStream ms:
+                    message = "The stream is a memory address.";
+                    break;
+                default: // always evaluated last despite its current position
+                    message = "The stream is some other type";
+                    break;
+                case null:
+                    message = "The stream is null.";
+                    break;
+            }
         }
     }
 }
