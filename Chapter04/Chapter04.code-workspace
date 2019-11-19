@@ -8,6 +8,9 @@
     },
     {
       "path": "Debugging"
+    },
+    {
+      "path": "Dumping"
     }
   ],
   "settings": {}
