@@ -20,6 +20,12 @@
     },
     {
       "path": "CalculatorLib"
+    },
+    {
+      "path": "PrimeFactorsUnitTests"
+    },
+    {
+      "path": "PrimeFactorsConsole"
     }
   ],
   "settings": {}
