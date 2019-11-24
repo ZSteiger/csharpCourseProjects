@@ -11,7 +11,7 @@ namespace PeopleApp
             var bob = new Person();
             bob.Name = "Bob Smith";
             bob.DateOfBirth = new DateTime(1965, 12, 22);
-            bob.FavoriteAncientWonder = WondersOfTheAncientWorld.StatusOfZeusAtOlympia
+            bob.FavoriteAncientWonder = WondersOfTheAncientWorld.StatusOfZeusAtOlympia;
             var alice = new Person
             {
                 Name = "Alice Jones",
@@ -24,6 +24,26 @@ namespace PeopleApp
 
             WriteLine(format: "{0} was born on {1:dd MMM yy}", arg0: alice.Name,
             arg1: alice.DateOfBirth);
+            WriteLine(format: "{0}'s favorite wonder is {1}. Its integer is {2}.", arg0: bob.Name, arg1: bob.FavoriteAncientWonder, arg2: (int)bob.FavoriteAncientWonder);
+
+            bob.BucketList = WondersOfTheAncientWorld.HangingGardensOfBabylon | WondersOfTheAncientWorld.MausoleumAtHalicarnassus;
+            // Another option is to set the value by casting 18 to the enum type, but this is more difficult to read
+            // bob.BucketList = (WondersOfTheAncientWorld)18;
+            WriteLine($"{bob.Name}'s bucket list is {bob.BucketList}");
+
+            bob.Children.Add(new Person { Name = "Alfred" });
+            bob.Children.Add(new Person { Name = "Zoe" });
+            WriteLine($"{bob.Name} has {bob.Children.Count} children:");
+            for (int child = 0; child < bob.Children.Count; child++)
+            {
+                WriteLine($"{bob.Children[child].Name}");
+            }
+            // as a bonus, use a foreach statement
+            foreach (var children in bob.Children)
+            {
+                WriteLine($"{children.Name}");
+            }
+
         }
     }
 }
