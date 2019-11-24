@@ -8,6 +8,8 @@ namespace PeopleApp
     {
         static void Main(string[] args)
         {
+
+            /* Ch05 Commented for clarity while working through Chapter 06
             var bob = new Person();
             bob.Name = "Bob Smith";
             bob.DateOfBirth = new DateTime(1965, 12, 22);
@@ -139,7 +141,24 @@ namespace PeopleApp
             WriteLine($"Sam's first child is {sam.Children[0].Name}");
             WriteLine($"Sam's second child is {sam.Children[1].Name}");
             WriteLine($"Sam's first child is {sam[0].Name}");
-            WriteLine($"Sam's second child is {sam[1].Name}");
+            WriteLine($"Sam's second child is {sam[1].Name}"); */
+
+            var harry = new Person { Name = "Harry" };
+            var mary = new Person { Name = "Mary" };
+            var jill = new Person { Name = "Jill" };
+
+            // call instance method
+            var baby1 = mary.ProcreateWith(harry);
+
+            // call static method
+            var baby2 = Person.Procreate(harry, jill);
+            // call an operator
+            var baby3 = harry * mary;
+
+            WriteLine($"{harry.Name} has {harry.Children.Count} children.");
+            WriteLine($"{mary.Name} has {mary.Children.Count} children.");
+            WriteLine($"{jill.Name} has {jill.Children.Count} children");
+            WriteLine(format: "{0}'s first child is named \"{1}\".", arg0: harry.Name, arg1: harry.Children[0].Name);
 
         }
     }
