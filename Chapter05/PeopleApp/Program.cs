@@ -6,6 +6,11 @@ namespace PeopleApp
 {
     class Program
     {
+        private static void Harry_Shout(object sender, EventArgs e) // convention for naming methods is ObjectName_EventName
+        {
+            Person p = (Person)sender;
+            WriteLine($"{p.Name} is this angry: {p.AngerLevel}.");
+        }
         static void Main(string[] args)
         {
 
@@ -141,7 +146,8 @@ namespace PeopleApp
             WriteLine($"Sam's first child is {sam.Children[0].Name}");
             WriteLine($"Sam's second child is {sam.Children[1].Name}");
             WriteLine($"Sam's first child is {sam[0].Name}");
-            WriteLine($"Sam's second child is {sam[1].Name}"); */
+            WriteLine($"Sam's second child is {sam[1].Name}"); 
+            ***END BLOCK COMMENT *** END BLOCK COMMENT */
 
             var harry = new Person { Name = "Harry" };
             var mary = new Person { Name = "Mary" };
@@ -159,7 +165,15 @@ namespace PeopleApp
             WriteLine($"{mary.Name} has {mary.Children.Count} children.");
             WriteLine($"{jill.Name} has {jill.Children.Count} children");
             WriteLine(format: "{0}'s first child is named \"{1}\".", arg0: harry.Name, arg1: harry.Children[0].Name);
+            WriteLine($"5! is {Person.Factorial(5)}");
 
+            harry.Shout += Harry_Shout;
+            harry.Poke();
+            harry.Poke();
+            harry.Poke();
+            harry.Poke();
+
+            
         }
     }
 }

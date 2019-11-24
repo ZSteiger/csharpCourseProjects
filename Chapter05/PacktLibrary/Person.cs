@@ -107,6 +107,40 @@ namespace Packt.Shared
         {
             return Person.Procreate(p1, p2);
         }
+        // method with a local function
+        public static int Factorial(int number)
+        {
+            if (number < 0)
+            {
+                throw new ArgumentException($"{nameof(number)} cannot be less than zero.");
+            }
+            return localFactorial(number);
+            int localFactorial(int localNumber) // local function
+            {
+                if (localNumber < 1) return 1;
+                return localNumber * localFactorial(localNumber - 1);
+            }
+        }
+
+        // Event delegate field
+        public event EventHandler Shout;
+        // Data Field
+        public int AngerLevel;
+        // method
+        public void Poke()
+        {
+            AngerLevel++;
+            if (AngerLevel >= 3)
+            {
+                // if something is listening...
+                if (Shout != null)
+                {
+                    // then call the delegate
+                    Shout(this, EventArgs.Empty);
+                }
+                // or Shout?.Invoke(this, EventArgs.Empty); aka inline null check
+            }
+        }
 
     }
 }
