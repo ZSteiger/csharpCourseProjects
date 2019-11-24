@@ -128,6 +128,11 @@ namespace PeopleApp
             WriteLine(sam.Origin);
             WriteLine(sam.Greeting);
             WriteLine(sam.Age);
+            sam.FavoriteIceCream = "Chocolate Fudge";
+            WriteLine($"Sam's favorite ice-cream flavor is {sam.FavoriteIceCream}.");
+            sam.FavoritePrimaryColor = "Red";
+            WriteLine($"Sam's favorite primary color is {sam.FavoritePrimaryColor}.");
+
         }
     }
 }
