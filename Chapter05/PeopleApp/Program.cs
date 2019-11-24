@@ -173,7 +173,30 @@ namespace PeopleApp
             harry.Poke();
             harry.Poke();
 
-            
+            Person[] people =
+            {
+                new Person { Name = "Simon" },
+                new Person { Name = "Jimmy" },
+                new Person { Name = "Richard" },
+                new Person { Name = "Adam" },
+            };
+            WriteLine("Initial list of people:");
+            foreach (var person in people)
+            {
+                WriteLine($"{person.Name}");
+            }
+            WriteLine("Use Person's IComparable implementation to sort:");
+            Array.Sort(people);
+            foreach (var person in people)
+            {
+                WriteLine($"{person.Name}");
+            }
+            WriteLine("Use PersonComparer's IComparer implementation to sort:");
+            Array.Sort(people, new PersonComparer());
+            foreach (var person in people)
+            {
+                WriteLine($"{person.Name}");
+            }
         }
     }
 }
