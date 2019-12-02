@@ -4,7 +4,7 @@ namespace Packt.Shared
 {
     public class GenericThing<T> where T : IComparable
     {
-        public T Data = default(T);
+        public T Data = default(T); // sets GenericThing's default parameter type is Data
 
         public string Process(T input)
         {

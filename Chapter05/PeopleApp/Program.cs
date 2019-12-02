@@ -167,7 +167,7 @@ namespace PeopleApp
             WriteLine(format: "{0}'s first child is named \"{1}\".", arg0: harry.Name, arg1: harry.Children[0].Name);
             WriteLine($"5! is {Person.Factorial(5)}");
 
-            harry.Shout += Harry_Shout;
+            harry.Shout += Harry_Shout; // "By assigning a method, () would replace
             harry.Poke();
             harry.Poke();
             harry.Poke();
@@ -205,6 +205,20 @@ namespace PeopleApp
             var t2 = new Thing();
             t2.Data = "apple";
             WriteLine($"Thing with a string: {t2.Process("apple")}");
+
+            var gt1 = new GenericThing<int>();
+            gt1.Data = 42;
+            WriteLine($"GenericThing with an integer: {gt1.Process(42)}");
+
+            var gt2 = new GenericThing<string>();
+            gt2.Data = "Apple";
+            WriteLine($"GenericThing with an string: {gt2.Process("Apple")}");
+
+            string number1 = "4";
+            WriteLine($"{number1} squared is {Squarer.Square<string>(number1)}");
+
+            byte number2 = 3;
+            WriteLine($"{number2} squared is {Squarer.Square(number2)}");
         }
     }
 }
