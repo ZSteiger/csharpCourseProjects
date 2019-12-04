@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "name": "Chapter07",
+      "path": "."
+    },
+    {
+      "name": "AssembliesAndNamespaces",
+      "path": "AssembliesAndNamespaces"
+    },
+    {
+      "path": "SharedLibrary"
+    },
+    {
+      "path": "DotNetCoreEverywhere"
+    }
+  ],
+  "settings": {}
+}
