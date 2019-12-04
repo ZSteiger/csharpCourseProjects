@@ -50,16 +50,56 @@ namespace Exercises
             }
         }
     }
+
+    public class Square : Rectangle
+    {
+        public Square() { }
+        public Square(double width) : base(height: width, width: width) { }
+        public override double Height
+        {
+            set
+            {
+                height = value;
+                width = value;
+            }
+        }
+        public override double Width
+        {
+            set
+            {
+                height = value;
+                width = value;
+            }
+        }
+    }
+    public class Circle : Square
+    {
+        public Circle() { }
+        public Circle(double radius) : base(width: radius * 2) { }
+        public double Radius
+        {
+            get { return height / 2; }
+            set { Height = value * 2; }
+        }
+        public override double Area
+        {
+            get
+            {
+                var radius = height / 2;
+                return System.Math.PI * radius * radius;
+            }
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
             var r = new Rectangle(3, 4.5);
             WriteLine($"Rectangle H: {r.Height}, W: {r.Width}, Area: { r.Area}");
-            //var s = new Square(5);
-            //WriteLine($"Square H: {s.Height}, W: {s.Width}, Area: { s.Area}");
-            //var c = new Circle(2.5);
-            //WriteLine($"Circle H: {c.Height}, W: {c.Width}, Area: { c.Area}");
+            var s = new Square(5);
+            WriteLine($"Square H: {s.Height}, W: {s.Width}, Area: { s.Area}");
+            var c = new Circle(2.5);
+            WriteLine($"Circle H: {c.Height}, W: {c.Width}, Area: { c.Area}");
         }
     }
 }
