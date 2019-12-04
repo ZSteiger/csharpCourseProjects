@@ -3,16 +3,63 @@ using static System.Console;
 
 namespace Exercises
 {
+    public abstract class Shape
+    {
+        protected double height;
+        protected double width;
+        public virtual double Height
+        {
+            get
+            {
+                return height;
+            }
+            set
+            {
+                height = value;
+            }
+        }
+
+        public virtual double Width
+        {
+            get
+            {
+                return width;
+            }
+            set
+            {
+                width = value;
+            }
+        }
+        public abstract double Area { get; }
+    }
+
+    public class Rectangle : Shape
+    {
+        public Rectangle() { }
+        public Rectangle(double height, double width)
+        {
+            this.height = height;
+            this.Width = width;
+        }
+
+        public override double Area
+        {
+            get
+            {
+                return height * width;
+            }
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
             var r = new Rectangle(3, 4.5);
             WriteLine($"Rectangle H: {r.Height}, W: {r.Width}, Area: { r.Area}");
-            var s = new Square(5);
-            WriteLine($"Square H: {s.Height}, W: {s.Width}, Area: { s.Area}");
-            var c = new Circle(2.5);
-            WriteLine($"Circle H: {c.Height}, W: {c.Width}, Area: { c.Area}");
+            //var s = new Square(5);
+            //WriteLine($"Square H: {s.Height}, W: {s.Width}, Area: { s.Area}");
+            //var c = new Circle(2.5);
+            //WriteLine($"Circle H: {c.Height}, W: {c.Width}, Area: { c.Area}");
         }
     }
 }
