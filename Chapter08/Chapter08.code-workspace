@@ -11,6 +11,15 @@
     },
     {
       "path": "WorkingWithRegularExpressions"
+    },
+    {
+      "path": "WorkingWithLists"
+    },
+    {
+      "path": "WorkingWithDictionaries"
+    },
+    {
+      "path": "WorkingWithRanges"
     }
   ],
   "settings": {}
