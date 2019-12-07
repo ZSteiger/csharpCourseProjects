@@ -13,6 +13,12 @@ public static class NumbersToWords
 
         string words = "";
 
+        if ((number / 1000000000) > 0)
+        {
+            words += ToWords(number / 1000000000) + " billion ";
+            number %= 1000000000;
+        }
+
         if ((number / 1000000) > 0)
         {
             words += ToWords(number / 1000000) + " million ";
