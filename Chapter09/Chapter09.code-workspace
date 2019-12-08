@@ -10,6 +10,12 @@
     },
     {
       "path": "WorkingWithStreams"
+    },
+    {
+      "path": "WorkingWithEncodings"
+    },
+    {
+      "path": "WorkingWithSerialization"
     }
   ],
   "settings": {}
