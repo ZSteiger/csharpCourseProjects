@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using System.IO;
+using static System.Console;
+using static System.Environment;
+using static System.IO.Path;
 
 namespace Exercises
 {
@@ -12,11 +16,33 @@ namespace Exercises
             var listOfShapes = new List<Shape>
             {
                 new Circle {Color = "Red", Radius = 2.5},
-                new Rectangle {Color = "Blue", },
-                new Circle {Color = "Purple", },
-                new Circle {Color = "Green", },
-                new Rectangle {Color = "Blue", }
+                new Rectangle {Color = "Blue", Height = 20.0, Width = 10.0},
+                new Circle {Color = "Green", Radius = 8.0},
+                new Circle {Color = "Purple", Radius = 12.3},
+                new Rectangle {Color = "Blue", Height = 45.0, Width = 18.0}
+            };
+            var xs = new XmlSerializer(typeof(List<Shape>));
+
+            string path = Combine(CurrentDirectory, "shapes.xml");
+
+            using (FileStream stream = File.Create(path))
+            {
+                xs.Serialize(stream, listOfShapes);
             }
+            WriteLine($"Written {new FileInfo(path).Length:N0} bytes of XML to {path}");
+            WriteLine();
+
+            WriteLine(File.ReadAllText(path));
+
+            using (FileStream xmlLoad = File.Open(path, FileMode.Open))
+            {
+                var loadedShapes = (List<Shape>)xs.Deserialize(xmlLoad);
+                foreach (Shape item in loadedShapes)
+                {
+                    WriteLine($"{item.Name}");
+                }
+            }
+
         }
     }
 }
