@@ -21,7 +21,7 @@ namespace Exercises
                 new Circle {Color = "Purple", Radius = 12.3},
                 new Rectangle {Color = "Blue", Height = 45.0, Width = 18.0}
             };
-            var xs = new XmlSerializer(typeof(List<Shape>));
+            XmlSerializer xs = new XmlSerializer(typeof(List<Shape>));
 
             string path = Combine(CurrentDirectory, "shapes.xml");
 
@@ -36,10 +36,10 @@ namespace Exercises
 
             using (FileStream xmlLoad = File.Open(path, FileMode.Open))
             {
-                var loadedShapes = (List<Shape>)xs.Deserialize(xmlLoad);
+                var loadedShapes = xs.Deserialize(xmlLoad) as List<Shape>;
                 foreach (Shape item in loadedShapes)
                 {
-                    WriteLine($"{item.Name}");
+                    WriteLine($"{item.GetType().Name} is {item.Color} and has an area of {item.Area:N2}");
                 }
             }
 
