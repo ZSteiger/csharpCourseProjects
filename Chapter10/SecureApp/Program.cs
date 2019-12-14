@@ -12,6 +12,18 @@ namespace SecureApp
 {
     class Program
     {
+        static void SecureFeature()
+        {
+            if (Thread.CurrentPrincipal == null)
+            {
+                throw new SecurityException("A user must be logged in to access this feature");
+            }
+            if (!Thread.CurrentPrincipal.IsInRole("Admins"))
+            {
+                throw new SecurityException("User must be a member of Admins to access this feature");
+            }
+            WriteLine("You have access to this secure feature");
+        }
         static void Main(string[] args)
         {
             Protector.Register("Alice", "Pa$$word", new[] { "Admins" });
@@ -45,7 +57,15 @@ namespace SecureApp
                     WriteLine($"{claim.Type}: {claim.Value}");
                 }
             }
-
+            try
+            {
+                SecureFeature();
+            }
+            catch (System.Exception ex)
+            {
+                WriteLine($"{ex.GetType()}: {ex.Message}");
+            }
         }
     }
+
 }
