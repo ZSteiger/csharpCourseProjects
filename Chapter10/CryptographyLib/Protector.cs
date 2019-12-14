@@ -59,7 +59,7 @@ namespace Packt.Shared
         }
 
         private static Dictionary<string, User> Users = new Dictionary<string, User>();
-        public static User Register(string username, string password)
+        public static User Register(string username, string password, string[] roles = null)
         {
             // generate a random salt
             var rng = RandomNumberGenerator.Create();
@@ -74,7 +74,8 @@ namespace Packt.Shared
             {
                 Name = username,
                 Salt = saltText,
-                SaltedHashedPassword = saltedhashedPassword
+                SaltedHashedPassword = saltedhashedPassword,
+                Roles = roles
             };
             Users.Add(user.Name, user);
 
@@ -175,7 +176,17 @@ namespace Packt.Shared
             r.GetNonZeroBytes(data);
             // data in an array now filled with cryptographically strong random bytes
             return data;
-            
+
+        }
+
+        public static void LogIn(string username, string password)
+        {
+            if (CheckPassword(username, password))
+            {
+                var identity = new GenericIdentity(username, "PacktAuth");
+                var principal = new GenericPrincipal(identity, Users[username].Roles);
+                System.Threading.Thread.CurrentPrincipal = principal;
+            }
         }
     }
 }
