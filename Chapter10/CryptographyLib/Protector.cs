@@ -168,5 +168,14 @@ namespace Packt.Shared
             return rsa.VerifyHash(hashedData, signatureBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         }
 
+        public static byte[] GetRandomKeyOrIV(int size)
+        {
+            var r = RandomNumberGenerator.Create();
+            var data = new byte[size];
+            r.GetNonZeroBytes(data);
+            // data in an array now filled with cryptographically strong random bytes
+            return data;
+            
+        }
     }
 }
