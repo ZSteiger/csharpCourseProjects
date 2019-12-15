@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Xml;
+using System.Security.Cryptography;
+using System.Security.Cryptography.Xml;
+using static System.Console;
 
 namespace Exercises
 {
@@ -7,6 +11,130 @@ namespace Exercises
         static void Main(string[] args)
         {
 
+            RijndaelManaged key = null;
+            try
+            {
+                // Create a new key
+                key = new RijndaelManaged();
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.PreserveWhitespace = true;
+                xmlDoc.Load("customers.xml");
+
+                // encrypt the creditcard element
+                Encrypt(xmlDoc, "creditcard", key);
+                WriteLine("The element was encrypted");
+                WriteLine(xmlDoc.InnerXml);
+                Decrypt(xmlDoc, key);
+                WriteLine("The element was decrypted");
+                WriteLine(xmlDoc.InnerXml);
+            }
+            catch (Exception e)
+            {
+                WriteLine(e.Message);
+            }
+            finally
+            {
+                // clear the key
+                if (key != null)
+                {
+                    key.Clear();
+                }
+            }
+        }
+        public static void Encrypt(XmlDocument Doc, string ElementName, SymmetricAlgorithm Key)
+        {
+            // Check the arguments
+            if (Doc == null)
+                throw new ArgumentNullException("Doc");
+            if (ElementName == null)
+                throw new ArgumentNullException("ElementToEncrypt");
+            if (Key == null)
+                throw new ArgumentNullException("Alg");
+
+            // find the specified element in the XmlDocument object and create a a new xmlElement object
+            XmlElement elementToEncrypt = Doc.GetElementsByTagName(ElementName)[0] as XmlElement;
+            // Throw an XmlException if the element was not found
+            if (elementToEncrypt == null)
+            {
+                throw new XmlException("The specified element was not found");
+            }
+            // create a new instance of EncryptedXml class and use it to encrypt the XmlElement with the symmetric key
+            EncryptedXml eXml = new EncryptedXml();
+
+            byte[] encryptedElement = eXml.EncryptData(elementToEncrypt, Key, false);
+
+            // construct the EncryptedData object and populate it with desired encryption information
+            EncryptedData edElement = new EncryptedData();
+            edElement.Type = EncryptedXml.XmlEncElementUrl;
+
+            // Create an EncryptionMethod element so that the receiver knows which algorithm to use for decryption. Determind what kind of algorithm is being used and supply the appropriate URL to the EncryptionMethod element
+
+            string encryptionMethod = null;
+
+            if (Key is TripleDES)
+            {
+                encryptionMethod = EncryptedXml.XmlEncTripleDESUrl;
+            }
+            else if (Key is DES)
+            {
+                encryptionMethod = EncryptedXml.XmlEncDESUrl;
+            }
+            if (Key is Rijndael)
+            {
+                switch (Key.KeySize)
+                {
+                    case 128:
+                        encryptionMethod = EncryptedXml.XmlEncAES128Url;
+                        break;
+                    case 198:
+                        encryptionMethod = EncryptedXml.XmlEncAES192Url;
+                        break;
+                    case 256:
+                        encryptionMethod = EncryptedXml.XmlEncAES256Url;
+                        break;
+                }
+            }
+            else
+            {
+                // throw an exception if the transform is not in the previous categories
+                throw new CryptographicException("The specified algorithm is not supported for XML Encryption");
+            }
+            edElement.EncryptionMethod = new EncryptionMethod(encryptionMethod);
+
+            // add the encrypted element data to the EncryptedData object
+            edElement.CipherData.CipherValue = encryptedElement;
+
+            // Replace the element from the original XmlDocument object with the EncryptedData element
+            EncryptedXml.ReplaceElement(elementToEncrypt, edElement, false);
+
+        }
+
+        public static void Decrypt(XmlDocument Doc, SymmetricAlgorithm Alg)
+        {
+            // check the arguments
+            if (Doc == null)
+                throw new ArgumentNullException("Doc");
+            if (Alg == null)
+                throw new ArgumentNullException("Alg");
+            // find the EncryptedData element in the XmlDocument
+            XmlElement encryptedElement = Doc.GetElementsByTagName("EncryptedData")[0] as XmlElement;
+            // if the EncryptedData element was not found, throw an exception
+            if (encryptedElement == null)
+            {
+                throw new XmlException("The EncryptedData element was not found");
+            }
+
+            // create an EncryptedData object and populate it
+            EncryptedData edElement = new EncryptedData();
+            edElement.LoadXml(encryptedElement);
+
+            // create a new EncryptedXml object
+            EncryptedXml exml = new EncryptedXml();
+            // decrypt the element using the symmetric key
+            byte[] rgbOutput = exml.DecryptData(edElement, Alg);
+
+            // replace the encryptedData element with plaintext XML element
+            exml.ReplaceData(encryptedElement, rgbOutput);
         }
     }
 }
