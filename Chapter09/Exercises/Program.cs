@@ -13,15 +13,15 @@ namespace Exercises
         static void Main(string[] args)
         {
             // create a list of shapes to serialize
-            var listOfShapes = new List<Shape>
+            List<Rectangle> listOfShapes = new List<Rectangle>()
             {
-                new Circle {Color = "Red", Radius = 2.5},
-                new Rectangle {Color = "Blue", Height = 20.0, Width = 10.0},
-                new Circle {Color = "Green", Radius = 8.0},
-                new Circle {Color = "Purple", Radius = 12.3},
-                new Rectangle {Color = "Blue", Height = 45.0, Width = 18.0}
+                new Circle { Color = "Red", Radius = 2.5 },
+                new Rectangle { Color = "Blue", Height = 20.0, Width = 10.0 },
+                new Circle { Color = "Green", Radius = 8.0 },
+                new Circle { Color = "Purple", Radius = 12.3 },
+                new Rectangle { Color = "Blue", Height = 45.0, Width = 18.0 }
             };
-            XmlSerializer xs = new XmlSerializer(typeof(List<Shape>));
+            XmlSerializer xs = new XmlSerializer(typeof(List<Rectangle>));
 
             string path = Combine(CurrentDirectory, "shapes.xml");
 
@@ -36,8 +36,8 @@ namespace Exercises
 
             using (FileStream xmlLoad = File.Open(path, FileMode.Open))
             {
-                var loadedShapes = xs.Deserialize(xmlLoad) as List<Shape>;
-                foreach (Shape item in loadedShapes)
+                var loadedShapes = xs.Deserialize(xmlLoad) as List<Rectangle>;
+                foreach (Rectangle item in loadedShapes)
                 {
                     WriteLine($"{item.GetType().Name} is {item.Color} and has an area of {item.Area:N2}");
                 }
