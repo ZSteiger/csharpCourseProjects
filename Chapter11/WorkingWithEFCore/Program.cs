@@ -44,6 +44,7 @@ namespace WorkingWithEFCore
                 } while (!decimal.TryParse(input, out price));
 
                 IOrderedEnumerable<Product> prods = db.Products
+                    .TagWith("Products filtered by price and sorted.")
                     .AsEnumerable()
                     .Where(product => product.Cost > price)
                     .OrderByDescending(product => product.Cost);
