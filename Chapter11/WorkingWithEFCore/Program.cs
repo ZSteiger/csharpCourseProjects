@@ -55,9 +55,30 @@ namespace WorkingWithEFCore
                 }
             }
         }
+
+        static void QueryingWithLike()
+        {
+            using (var db = new Northwind())
+            {
+                var loggerFactory = db.GetService<ILoggerFactory>();
+                loggerFactory.AddProvider(new ConsoleLoggerProvider());
+                Write("Enter part of a product name: ");
+                string input = ReadLine();
+
+                IQueryable<Product> prods = db.Products
+                    .Where(p => EF.Functions.Like(p.ProductName, $"%{input}%"));
+
+                foreach (Product item in prods)
+                {
+                    WriteLine($"{item.ProductName} has {item.Stock} units in stock. Discontinued? {item.Discontinued}");
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
-            QueryingCategories();
+            //QueryingCategories();
+            QueryingWithLike();
             // QueryingProducts();
         }
     }
