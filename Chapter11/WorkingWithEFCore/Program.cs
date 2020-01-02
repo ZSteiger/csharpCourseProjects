@@ -1,8 +1,11 @@
 ﻿using System;
-using static System.Console;
-using Packt.Shared;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Packt.Shared;
+using static System.Console;
 
 namespace WorkingWithEFCore
 {
@@ -12,6 +15,8 @@ namespace WorkingWithEFCore
         {
             using (var db = new Northwind())
             {
+                var loggerFactory = db.GetService<ILoggerFactory>();
+                loggerFactory.AddProvider(new ConsoleLoggerProvider());
                 WriteLine("Categories and how many products they have:");
                 // a query to get all categories and their related products
                 IQueryable<Category> cats = db.Categories
@@ -22,9 +27,37 @@ namespace WorkingWithEFCore
                 }
             }
         }
+
+        static void QueryingProducts()
+        {
+            using (var db = new Northwind())
+            {
+                var loggerFactory = db.GetService<ILoggerFactory>();
+                loggerFactory.AddProvider(new ConsoleLoggerProvider());
+                WriteLine("Products that cost more than a price, highest at top.");
+                string input;
+                decimal price;
+                do
+                {
+                    Write("Enter a product price: ");
+                    input = ReadLine();
+                } while (!decimal.TryParse(input, out price));
+
+                IOrderedEnumerable<Product> prods = db.Products
+                    .AsEnumerable()
+                    .Where(product => product.Cost > price)
+                    .OrderByDescending(product => product.Cost);
+
+                foreach (Product item in prods)
+                {
+                    WriteLine($"{item.ProductID}: {item.ProductName} costs {item.Cost:$#,##0.00} and has {item.Stock} in stock.");
+                }
+            }
+        }
         static void Main(string[] args)
         {
             QueryingCategories();
+            // QueryingProducts();
         }
     }
 }
