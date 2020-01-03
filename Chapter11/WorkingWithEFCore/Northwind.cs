@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Proxies;
 
 namespace Packt.Shared
 {
@@ -11,7 +12,7 @@ namespace Packt.Shared
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string path = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Northwind.db");
-            optionsBuilder.UseSqlite($"Filename={path}");
+            optionsBuilder.UseLazyLoadingProxies().UseSqlite($"Filename={path}");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,6 +22,10 @@ namespace Packt.Shared
                 .Property(category => category.CategoryName)
                 .IsRequired() // NOT NULL
                 .HasMaxLength(15);
+
+            // global filter to remove discontinued products
+            modelBuilder.Entity<Product>()
+                .HasQueryFilter(p => !p.Discontinued);
         }
 
     }
